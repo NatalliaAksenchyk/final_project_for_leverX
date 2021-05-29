@@ -1,160 +1,148 @@
 'use strict';
 
+let storage = new Map();      
 
-let arr = {};
-
-function register() {
-  let nameRegister = document.getElementById("email-register").value;
-  let passwordRegister = document.getElementById("password-register").value;
-  let repeatPasswordRegister = document.getElementById("repeatpassword-register").value;
-  if(passwordRegister ===  repeatPasswordRegister) {
-    arr[nameRegister] = passwordRegister;
-    localStorage.setItem("arr", JSON.stringify(arr));
-    window.location = "value.html";
-  }  else {
-    alert('Неверный пароль');
-  }  
-};
-
-function validate() {
-  let nameValidate = document.getElementById("username").value;
-  let passwordValidate = document.getElementById("password").value;
-  arr = JSON.parse(localStorage.getItem("arr"));
-  if (passwordValidate === arr[nameValidate]) {
-    window.location = "index.html";
-  } else {
-    alert('Неверный логин или пароль');
-  }
-}
-function validateStar() {
-  window.location = "value.html";
-  let nameValidate = document.getElementById("username").value;
-  let passwordValidate = document.getElementById("password").value;
-  arr = JSON.parse(localStorage.getItem("arr"));
-  if (passwordValidate === arr[nameValidate]) {
-    window.location = "index.html";
-  } else {
-    alert('Неверный логин или пароль');
-  }
+function noSelectedCheckboxes(answers) {    // unanswered questions
+  let answersNum = Array.from(answers).map(it => it.querySelectorAll("input[type='checkbox']:checked"))
+  .filter(it => it.length == 0).length;
+  return answersNum > 0;
 }
 
-function notactiv() {
-  let nameValidate = document.getElementById("username").value;
-  let passwordValidate = document.getElementById("password").value;
-  console.log(nameValidate, passwordValidate)
-  if(nameValidate == "" || passwordValidate == "") {
-    document.getElementById("submit").disabled = true;
-  } else {
-    document.getElementById("submit").removeAttribute("disabled");
+function submitButton() {
+  let count = document.getElementsByClassName('block').length; 
+  let answers = document.querySelectorAll('.block'); 
+  let score = 0; 
+  let rightAnswers = [["checkbox1", "checkbox4"], ["checkbox1", "checkbox3", "checkbox4"],["checkbox1", "checkbox2"], ["checkbox2", "checkbox3"], ["checkbox2", "checkbox4"]];
+  let questionIncorrectAnswer= [];
+  Array.from(storage.values()).map(it => it.correctAnswers).map(it => rightAnswers.push(it.map(e => 'checkbox' + e))); 
+  if(noSelectedCheckboxes(answers)) {
+    alert('Все вопросы долждны иметь хотя бы один выбранный вариант ответа. Проверте правильность заполнения');
+    return;
   }
-}
-
-function notactivRegister() {
-  let nameRegister = document.getElementById("email-register").value;
-  let passwordRegister = document.getElementById("password-register").value;
-  console.log(nameRegister, passwordRegister)
-  if(nameRegister == "" || passwordRegister == "") {
-    document.getElementById("submit-register").disabled = true;
-  } else {
-    document.getElementById("submit-register").removeAttribute("disabled");
-  }
-}
-
-// function finedBrowser() {
-
-//   let textBrowser = document.getElementById("browser");
-
-//   let userDeviceArray = [
-//       {device: 'Android', platform: /Android/},
-//       {device: 'iPhone', platform: /iPhone/},
-//       {device: 'iPad', platform: /iPad/},
-//       {device: 'Symbian', platform: /Symbian/},
-//       {device: 'Windows Phone', platform: /Windows Phone/},
-//       {device: 'Tablet OS', platform: /Tablet OS/},
-//       {device: 'Linux', platform: /Linux/},
-//       {device: 'Windows', platform: /Windows NT/},
-//       {device: 'Macintosh', platform: /Macintosh/}
-//   ];
-
-//   let platform = navigator.userAgent;
-
-//  function getPlatform() {
-//       for (let i in userDeviceArray) {
-//           if (userDeviceArray[i].platform.test(platform)) {
-//               return 'Вход выполнен с ' + userDeviceArray[i].device;
-//           }
-//       }
-//       return 'Неизвестная' + platform;
-//   }
-
-//   textBrowser.innerHTML = getPlatform();
-// }
-
-// finedBrowser();
-
-const delay = ms => {
-  return new Promise((resolve) => setTimeout(() => resolve(), ms));
-};
-
-async function asyncFunc() {
-  try {
-    await delay(1000);
-    const data = await fetch("https://gist.githubusercontent.com/oDASCo/3f4014d24dc79e1e29b58bfa96afaa1b/raw/677516ee3bd278f7e3d805108596ca431d00b629/db.json");
-    const result = await data.json();
-    let female = result.filter(item => item.gender);
-    let woman = document.getElementById("woman");
-    woman.innerHTML = "Количество женщин: " + female.length;
-    let male = result.filter(item => item.gender);
-    let man = document.getElementById("man");
-    man.innerHTML = "Количество мужчин: " + male.length;
-    let dataDoc = document.getElementById("1");
-    let dataDoc2 = document.getElementById("2");
-    let dataDoc3 = document.getElementById("3");
-    let dataDoc4 = document.getElementById("4");
-    let dataDoc5 = document.getElementById("5");
-    let dataDoc6 = document.getElementById("6");
-    result.forEach((element) => {
-        let item = `<p>${element.name}</p>`;
-        let item2 = `<p>${element.company}</p>`;
-        let item3 = `<p>${element.email}</p>`;
-        let item4 = `<p>${element.phone}</p>`;
-        let item5 = `<p>${element.balance}</p>`;
-        let item6 = `<p>${element.registered}</p>`;
-        if (!element.isActive) {
-          item = `<p class = "marked">${element.name}</p>`;
-          item2 = `<p class = "marked2">${element.company}</p>`;
-          item3 = `<p class = "marked3">${element.email}</p>`;
-          item4 = `<p class = "marked4">${element.phone}</p>`;
-          item5 = `<p class = "marked5">${element.balance}</p>`;
-          item6 = `<p class = "marked6">${element.registered}</p>`;
-        }
-        dataDoc.innerHTML += item;
-        dataDoc2.innerHTML += item2;
-        dataDoc3.innerHTML += item3;
-        dataDoc4.innerHTML += item4;
-        dataDoc5.innerHTML += item5;
-        dataDoc6.innerHTML += item6;
-      });
-  } catch (error) {
-    console.log("Hello from catch");
-  } finally {
-    let element = document.getElementsByClassName("marked");
-    let element2 = document.getElementsByClassName("marked2");
-    let element3 = document.getElementsByClassName("marked3");
-    let element4 = document.getElementsByClassName("marked4");
-    let element5 = document.getElementsByClassName("marked5");
-    let element6 = document.getElementsByClassName("marked6");
-    for(let i=0; i < element.length; i++) {
-    element[i].style.backgroundColor = "gray";
-    element2[i].style.backgroundColor = "gray";
-    element3[i].style.backgroundColor = "gray";
-    element4[i].style.backgroundColor = "gray";
-    element5[i].style.backgroundColor = "gray";
-    element6[i].style.backgroundColor = "gray";
+  for (let i = 0; i < count; i++) {
+    let chosenAnswer = answers[i].querySelectorAll("input[type='checkbox']:checked"); 
+    let arrChosenAnswer = Array.from(chosenAnswer).map(it => it.className);
+    let isRightAnswer = true;
+    for(let j=0; j<rightAnswers[i].length; j++) {
+      let rightAnswersNumber =  rightAnswers[i][j];
+      if(rightAnswers[i].length !== arrChosenAnswer.length) {
+        isRightAnswer= false;
+      } else if (!arrChosenAnswer.includes(rightAnswersNumber)) {  //checking for being in an array
+        isRightAnswer = false;
+      }
+    } 
+    if(isRightAnswer){
+      score++;          //adding the number of correct answers
+    } else {
+      addIncorrectQuestion(questionIncorrectAnswer, i);
     }
   }
+  if(questionIncorrectAnswer.length == 0) {
+    alert("Ваш результат " + score + " из " + count + ". Вы молодец!");
+  } else {
+    alert("Вы неправильно ответили на вопросы:" + "\n" + "\n" + questionIncorrectAnswer + "\n" + "\n" + "Ваш результат " + score + " из " + count);
+  }
 }
-asyncFunc();
+
+function addIncorrectQuestion(questionIncorrectAnswer, i) {   //correction for default questions
+  if(i == 0) {
+    questionIncorrectAnswer.push('Что из перечисленного не яляется языком программирования?');
+  } else if(i == 1) {
+    questionIncorrectAnswer.push('Какие из перечисленных видов тестирования могут быть автоматизированы?');
+  } else if(i == 2) {
+    questionIncorrectAnswer.push('Какая (какие) из следующих конструкий используется (используются) для ветвления?');
+  } else if(i == 3) {
+    questionIncorrectAnswer.push('Какого (каких) метода (методов) тестирования не существует?');
+  } else if(i == 4) {
+    questionIncorrectAnswer.push('Выберите типы алгоритмов, которых не существует');
+  }
+  else {
+    questionIncorrectAnswer.push(Array.from(storage.keys())[i-5]);
+  }
+}
+
+function addQuestion() {
+  let question = prompt('Введите текст вопроса:');
+  if(question){
+    storage.set(question, { answers: [], correctAnswers: [] });
+    let form = document.getElementById('test');
+    let questionBlock = document.createElement('div');
+    questionBlock.classList.add("block");
+    form.appendChild(questionBlock);
+    let questionElem = document.createElement('p');
+    questionBlock.appendChild(questionElem);
+    questionElem.innerHTML = `${question}`;
+    if(!addAnswer(question,questionBlock)) {
+      storage.delete(question);   //deleting the question from the repository
+      questionBlock.remove();   //delete the question block if the user has not entered an answer option
+      addQuestion();
+    }
+  } else {
+    alert('Вы не ввели текст вопроса. Попробуйте добавить вопрос заново');
+    addQuestion();
+  }
+}
+
+function addAnswer(question, questionBlock) {
+  let i = 1;
+  let divAnswers = document.createElement('div');
+  while(i <= 4){
+    let answer = prompt(`Введите текст ${i} варианта ответа:`);
+    if(answer) {  
+      storage.get(question).answers.push(answer);
+      questionBlock.appendChild(divAnswers);
+      let label = document.createElement('label');
+      let checkbox = document.createElement('input');
+      checkbox.type = "checkbox";
+      checkbox.classList.add("checkbox" + i);
+      label.innerHTML = `${answer}`;
+      divAnswers.appendChild(checkbox);
+      divAnswers.appendChild(label);
+      let br = document.createElement('br');
+      divAnswers.appendChild(br);
+      i++;
+    } else {
+      alert(`Вы не ввели текст ${i} варианта ответа. Попробуйте ввести вопрос еще раз`);
+      return false;
+    } 
+  }  
+  return addAnswerNumbers(question);
+}  
+
+function addAnswerNumbers(question) {
+  let number = prompt('Введите номера правильных ответов через запятую. Нумерация начинается с 1');
+  if(!number) {
+    alert("Вы не ввели правильные варианты ответов, попробуйте ввести вопрос заново");
+    return false;
+  };
+  let patt = new RegExp("^[1-4,]+$");  //regular expression
+  let res = patt.test(number);
+  if(res) {
+    let correctAnswers = number.split(',');
+    storage.get(question).correctAnswers = correctAnswers;
+    return true;
+  } else {
+    alert("Поле может содержать только уникальные цифры 1, 2, 3, 4, разделенные запятой. Попробуйте ввести номера правильных ответов заново");
+    addAnswerNumbers(question);
+    return true;
+  } 
+}
+
+function startTest() {
+  document.getElementById("add").disabled="disabled";
+  document.getElementById("start").disabled="disabled";
+  document.getElementById("test").style.display = 'block';
+  document.getElementById("submit").style.display = "block"; 
+}
+
+
+
+
+
+
+
+
+
 
 
 

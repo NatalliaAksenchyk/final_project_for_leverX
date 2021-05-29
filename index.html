@@ -7,25 +7,76 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="block1">
-    <header>
-        <Nav class="wrapper">
-            <ul class="menu">
-                <li><a class="home" href="index.html">Главная</a></li>
-                <li><a class="clients" href="clients.html">Клиенты</a></li>
-                <li><a class="map" href="pages/services.html">Карта</a></li>
-                <li><input type="button" value="Exit"/></li>
-            </ul>
-        </Nav>
-        <hr>
-        </hr>
-    </header>
-    <div class="main">
-        <h1>Добро пожаловать<br>на главную страницу!</h1>
-        <p id = "browser"></p>
-     </div>
-</div>    
-    
+    <input type="button" value="Добавить вопрос" id="add" onclick="addQuestion()"/>
+    <input type="button" value="Начать тест" id="start" onclick="startTest()"/>
+    <form id = "test">
+        <div class="block">
+            <p>Что из перечисленного не яляется языком программирования?</p> 
+            <div>
+                <input class="checkbox1" type="checkbox" />
+                <label>HTML</label><br>
+                <input class="checkbox2" type="checkbox" />
+                <label>Java</label><br>
+                <input class="checkbox3" type="checkbox" />
+                <label>Pyton</label><br>
+                <input class="checkbox4" type="checkbox" />
+                <label>DevOps</label>
+            </div>
+        </div>    
+        <div class="block">
+            <p>Какие из перечисленных видов тестирования могут быть автоматизированы?</p> 
+            <div>
+                <input class="checkbox1" type="checkbox" />
+                <label>UI тестирование</label><br>
+                <input class="checkbox2" type="checkbox" />
+                <label>Юзабилити тестирование</label><br>
+                <input class="checkbox3" type="checkbox" />
+                <label>Тестирование совместимости</label><br>
+                <input class="checkbox4" type="checkbox" />
+                <label>Unit тестирование</label>
+            </div>
+        </div>
+        <div class="block">
+            <p>Какая (какие) из следующих конструкий используется (используются) для ветвления?</p> 
+            <div>
+                <input class="checkbox1" type="checkbox" />
+                <label>switch case</label><br>
+                <input class="checkbox2" type="checkbox" />
+                <label>if else</label><br>
+                <input class="checkbox3" type="checkbox" />
+                <label>do while</label><br>
+                <input class="checkbox4" type="checkbox" />
+                <label>for</label>
+            </div>
+        </div>
+        <div class="block">
+            <p>Какого (каких) метода (методов) тестирования не существует?</p> 
+            <div>
+                <input class="checkbox1" type="checkbox" />
+                <label>Метод белого ящика</label><br>
+                <input class="checkbox2" type="checkbox" />
+                <label>Метод игры в ящик</label><br>
+                <input class="checkbox3" type="checkbox" />
+                <label>Метод кротовой норы</label><br>
+                <input class="checkbox4" type="checkbox" />
+                <label>Метод серого ящика</label>
+            </div>
+        </div>
+        <div class="block">
+            <p>Выберите типы алгоритмов, которых не существует</p> 
+            <div>
+                <input class="checkbox1" type="checkbox" />
+                <label>Алгоритм с ветвлением</label><br>
+                <input class="checkbox2" type="checkbox" />
+                <label>Циклический безусловный</label><br>
+                <input class="checkbox3" type="checkbox" />
+                <label>Циклический с параметром</label><br>
+                <input class="checkbox4" type="checkbox" />
+                <label>Алгоритм с углублением</label>
+            </div>
+        </div>
+    </form>     
+    <input type="button" value="Отправить" id="submit" onclick="submitButton()"/> 
 <script src="script.js"></script>
 </body>
 </html>
